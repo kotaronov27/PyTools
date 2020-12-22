@@ -2,48 +2,68 @@
 import random
 import copy
 
+# 相手を選択する。
+# scrtmp:immutable、選択リスト
+# target:ターゲット数
+# sel:希望順位
 def selectMt(scrtmp,target,sel):
+  # sel数まで選んだら終わり
   if scrtmp.count(1)==sel:
     return True
-  selectnum=int((random.random() * 100000) % target)
+  #0~target-1 までをランダム
+  selectnum=int(random.random() * target)
   scrtmp[selectnum]|=1
+  # 再帰処理
   selectMt(scrtmp,target,sel)
 
+# マッチングメイン
 def matching():
+  # 初期化
   score = list(range(0))
   msel = list(range(0))
   fsel = list(range(0))
   total = 0
   
+  # 男性の選択表作成
   for i in range(x):
     female = list(range(0))
     for j in range(y):
       female.append(0)
     msel.append(female)
     
+  # 女性の選択表作成
   for i in range(y):
     male = list(range(0))
     for j in range(x):
       male.append(0)
     fsel.append(male)
     
+  # マッチングテーブル作成
   score = copy.deepcopy(msel)
 
   sumvote=0
+  # 男性側選択
   for i in range(x):
     selectMt(msel[i],y,z)
+  # 女性側選択
   for i in range(y):
     selectMt(fsel[i],x,z)
+  # マッチング結果計算
   for i in range(x):
     for j in range(y):
       score[i][j]=msel[i][j]+fsel[j][i]
   for i in range(x):
       total+=score[i].count(2)
       sumvote+=sum(score[i])
-      # print(score[i])
-  # print(sumvote)
+      # print(score[i]) # マッチング表確認
+  # print(sumvote) # 投票数確認
   return(total)
 
+# ~~以下メイン処理~~
+# 男性人数
+# 女性人数
+# 希望順位
+# パーティ回数
 x=10
 y=10
 z=5
