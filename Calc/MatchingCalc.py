@@ -6,15 +6,16 @@ import copy
 # scrtmp:immutable、選択リスト
 # target:ターゲット数
 # sel:希望順位
-def selectMt(scrtmp,target,sel):
+# weight:重み
+def selectMt(scrtmp,target):
   # sel数まで選んだら終わり
   if scrtmp.count(1)==sel:
     return True
   #0~target-1 までをランダム
-  selectnum=int(random.random() * target)
+  selectnum=int(random.random() * target * weight)
   scrtmp[selectnum]|=1
   # 再帰処理
-  selectMt(scrtmp,target,sel)
+  selectMt(scrtmp,target)
 
 # マッチングメイン
 def matching():
@@ -44,10 +45,10 @@ def matching():
   sumvote=0
   # 男性側選択
   for i in range(x):
-    selectMt(msel[i],y,z)
+    selectMt(msel[i],y)
   # 女性側選択
   for i in range(y):
-    selectMt(fsel[i],x,z)
+    selectMt(fsel[i],x)
   # マッチング結果計算
   for i in range(x):
     for j in range(y):
@@ -63,12 +64,21 @@ def matching():
 # 男性人数
 # 女性人数
 # 希望順位
+# ウェイト(上位)
 # パーティ回数
 x=10
 y=10
-z=5
+sel=3
+weight=1
 party=100
 totalmatch=0
+
+if x * weight < sel:
+  weight = 1
+elif y * weight < sel:
+  weight = 1
+elif weight > 1:
+  weight = 1
 
 for i in range(party):
     totalmatch+=matching()
