@@ -56,7 +56,7 @@ def matching():
   for i in range(x):
       total+=score[i].count(2)
       sumvote+=sum(score[i])
-      # print(score[i]) # マッチング表確認
+      print(score[i]) # マッチング表確認
   # print(sumvote) # 投票数確認
   return(total)
 
@@ -66,12 +66,12 @@ def matching():
 # 希望順位
 # ウェイト(上位)
 # パーティ回数
-x=10
-y=10
-sel=3
-weight=1
-party=100
-totalmatch=0
+x=20
+y=20
+sel=5
+weight=0.3
+party=1
+totalmatch=0.0
 
 if x * weight < sel:
   weight = 1
